@@ -45,7 +45,7 @@ public class ColorPaletteImageView extends ImageView {
         Bitmap b = ((BitmapDrawable) drawable).getBitmap();
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
-        new ColorPaletteGeneratorTask(bitmap, mListener);
+        new ColorPaletteGeneratorTask(bitmap, mListener).execute();
     }
 
     public void addColorPaletteListener(ColorPaletteListener listener) {
