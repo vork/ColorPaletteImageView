@@ -1,4 +1,4 @@
-package com.vork.colorpaletteimageview;
+package com.vork.colorpaletteimageview.Quantizer;
 
 /**
  * This sample code is made available as part of the book "Digital Image
@@ -384,7 +384,7 @@ public class MedianCutQuantizer {
 
     //-------- utility methods -----------
 
-    void listColorNodes(ColorNode[] nodes){
+    void listColorNodes(ColorNode[] nodes) {
         int i = 0;
         for (ColorNode color : nodes) {
             Log.d(LOG_TAG, "Color Node #" + i + " " + color.toString());

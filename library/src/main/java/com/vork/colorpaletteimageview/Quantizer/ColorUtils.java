@@ -1,8 +1,8 @@
-package com.vork.colorpaletteimageview;
+package com.vork.colorpaletteimageview.Quantizer;
 
 import android.graphics.Color;
 
-public class ColorUtils  {
+public class ColorUtils {
 
     public static int darken(final int color, float fraction) {
         return blendColors(Color.BLACK, color, fraction);

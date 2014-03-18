@@ -1,4 +1,4 @@
-package com.vork.colorpaletteimageview;
+package com.vork.colorpaletteimageview.Quantizer;
 
 public class FloatUtils {
 
