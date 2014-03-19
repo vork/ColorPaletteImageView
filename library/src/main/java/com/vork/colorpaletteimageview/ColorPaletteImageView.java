@@ -12,10 +12,11 @@ import android.widget.ImageView;
 import com.vork.colorpaletteimageview.Quantizer.ColorScheme;
 import com.vork.colorpaletteimageview.Quantizer.DominantColorCalculator;
 
-import java.util.ArrayList;
-
 public class ColorPaletteImageView extends ImageView {
-    ArrayList<ColorPaletteListener> mListener = new ArrayList<ColorPaletteListener>();
+    private ColorPaletteListener mListener;
+    private ColorPaletteGeneratorTask mGeneratorTask;
+    private boolean mShouldUpdate = false;
+    private boolean mIsUpdating = false;
 
     public ColorPaletteImageView(Context context) {
         super(context);
@@ -42,27 +43,48 @@ public class ColorPaletteImageView extends ImageView {
         if (getWidth() == 0 || getHeight() == 0) {
             return;
         }
-        Bitmap b = ((BitmapDrawable) drawable).getBitmap();
-        Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
-        new ColorPaletteGeneratorTask(bitmap, mListener).execute();
+        if (mShouldUpdate) {
+            Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+            Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
+
+            if (!mIsUpdating) {
+                mGeneratorTask = new ColorPaletteGeneratorTask(bitmap, mListener);
+                mGeneratorTask.execute();
+            }
+        }
     }
 
-    public void addColorPaletteListener(ColorPaletteListener listener) {
-        mListener.add(listener);
+    public void setColorPaletteListener(ColorPaletteListener listener) {
+        if(mGeneratorTask != null && mGeneratorTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mGeneratorTask.cancel(true);
+            mGeneratorTask = null;
+        }
+        mListener = listener;
+        mShouldUpdate = true;
+        postInvalidate();
     }
 
-    public void removeColorPaletteListener(ColorPaletteListener listener) {
-        mListener.remove(listener);
+    public void removeColorPaletteListener() {
+        if(mGeneratorTask != null && mGeneratorTask.getStatus() != AsyncTask.Status.FINISHED) {
+            mGeneratorTask.cancel(true);
+            mGeneratorTask = null;
+            mListener = null;
+        }
     }
 
     class ColorPaletteGeneratorTask extends AsyncTask<Void, Void, ColorScheme> {
         private final Bitmap mBitmap;
-        private final ArrayList<ColorPaletteListener> mListeners;
+        private final ColorPaletteListener mListener;
 
-        public ColorPaletteGeneratorTask(Bitmap bitmap, ArrayList<ColorPaletteListener> listeners) {
+        public ColorPaletteGeneratorTask(Bitmap bitmap, ColorPaletteListener listener) {
             mBitmap = bitmap;
-            mListeners = listeners;
+            mListener = listener;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            mIsUpdating = true;
         }
 
         @Override
@@ -74,8 +96,9 @@ public class ColorPaletteImageView extends ImageView {
 
         @Override
         protected void onPostExecute(ColorScheme scheme) {
-            for (ColorPaletteListener listener : mListener) {
-                listener.getColorPalette(scheme);
+            mIsUpdating = false;
+            if (mListener != null) {
+                mListener.getColorPalette(scheme);
             }
         }
     }
