@@ -2,17 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.vork.colorpaletteimageview.sample.MainActivity$PlaceholderFragment">
+    tools:context="com.vork.colorpaletteimageview.sample.MainActivity.DogeFragment">
 
 
     <com.vork.colorpaletteimageview.ColorPaletteImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/doge_imageview" />
+        android:id="@+id/doge_imageview"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,35 +28,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:id="@+id/primaryColor"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="#000" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:text="Primary Color"
+                    android:textColor="#FFF"
                     android:id="@+id/primaryText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="#000000"
+                    android:textColor="#FFF"
+                    android:textStyle="italic"
+                    android:id="@+id/primaryTextValue" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:id="@+id/secondaryColor"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="#000">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:text="Secondary Color"
+                    android:textColor="#FFF"
                     android:id="@+id/secondaryText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="#000000"
+                    android:textColor="#FFF"
+                    android:textStyle="italic"
+                    android:id="@+id/secondaryTextValue" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/tertiaryColor"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:background="#000"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
